@@ -1,11 +1,16 @@
 package ru.mail.propre;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class readfile {
-    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(readfile.class);
+public class Readfile {
+    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(Readfile.class);
     static String filename = "dic.txt";
     static BufferedReader bufferedReader;
     static ArrayList dictioner;
@@ -51,10 +56,10 @@ public class readfile {
             //выбрать случайное слово
             System.out.println("Tapez \"exit\" pour completer");
 
-            String xWord = (String) dictioner.get(number);
+            String xword = (String) dictioner.get(number);
 
-            xWord = xWord.toLowerCase();
-            int len = xWord.length();
+            xword = xword.toLowerCase();
+            int len = xword.length();
             System.out.print("\t"); // Erase the line
             for (int q = 0; q < len; q++) {
                 System.out.print("X"); // Erase the line
@@ -80,7 +85,8 @@ public class readfile {
                 //проверки на валидность с приведением к единому виду
                 if (inputWord.equals("exit")) break;
                 if (!inputWord.matches("[a-zA-Z]*")) {
-                    System.out.println(i + "\t" + inputWord + "\t Mauvaise entree: \"" + inputWord + "\" utilisez uniquement des lettres latines");
+                    System.out.println(i + "\t" + inputWord + "\t Mauvaise entree: \""
+                            + inputWord + "\" utilisez uniquement des lettres latines");
                     i--;
                     continue;
                 }
@@ -89,17 +95,19 @@ public class readfile {
                     i--;
                     continue;
                 }
-                if (inputWord.length() != xWord.length()) {
-                    System.out.println(i + "\t" + inputWord + "\t la longueur des mots ne correspond pas: " + xWord.length() + " != " + inputWord.length());
+                if (inputWord.length() != xword.length()) {
+                    System.out.println(i + "\t" + inputWord + "\t la longueur des mots ne correspond pas: "
+                            + xword.length() + " != " + inputWord.length());
                     i--;
                     continue;
                 }
                 inputWord = inputWord.toLowerCase();
                 //*******************************************
                 //логика
-                int bulls = 0, cows = 0;
+                int bulls = 0;
+                int cows = 0;
                 char[] arrayInputWord = inputWord.toCharArray();
-                char[] arrayXword = xWord.toCharArray();
+                char[] arrayXword = xword.toCharArray();
 
                 //Сначала проверить на быки. При нахождении символа делать отметку для него.
                 for (int a = 0; a < inputWord.length(); a++) {
@@ -109,7 +117,8 @@ public class readfile {
                         arrayXword[a] = '0';
                     }
                 }
-                //поиск коров. При нахождении так же делать отметку. В данном случае просто заменяю совпадающий символ нулем
+                //поиск коров. При нахождении так же делать отметку. В данном случае просто заменяю
+                // совпадающий символ нулем
                 for (int inp = 0; inp < arrayInputWord.length; inp++) {
                     if (arrayInputWord[inp] != '0') {
                         for (int x = 0; x < arrayXword.length; x++) {
@@ -124,31 +133,15 @@ public class readfile {
                     }
                 }
 
-                //singleChar список с набором символов введенного слова без повтора
-//                ArrayList<Character> singleChar = new ArrayList();//
-//                singleChar.add(inputWord.charAt(0));
-//                for (int ii = 1; ii < inputWord.length(); ii++) {
-//                    if (!verifiDouble(inputWord.charAt(ii), singleChar)) singleChar.add(inputWord.charAt(ii));
-//                }
-//
-//                for (int b = 0; b < inputWord.length(); b++) {
-//
-//                    if (inputWord.charAt(b) == xWord.charAt(b)) {
-//                        bulls++;
-//                        continue;
-//                    }
-//                    for (char ch : singleChar) {
-//                        if (ch == xWord.charAt(b) & !(inputWord.charAt(b) == xWord.charAt(b))) cows++;
-//                    }
-//                }
                 System.out.println(i + "\t" + inputWord + "\t bulls: " + bulls + " cows: " + cows);
                 if (bulls == len) break;
             }
             if (inputWord.equals("exit")) break;
 
-            if (xWord.equals(inputWord)) System.out.print("Super! Vouloir continuer? Oui/Non ");
+            if (xword.equals(inputWord)) System.out.print("Super! Vouloir continuer? Oui/Non ");
             else
-                System.out.print("He! Qu est ce que c est? La mot: \"" + xWord.toUpperCase() + "\" Vouloir continuer? Oui/Non ");
+                System.out.print("He! Qu est ce que c est? La mot: \"" + xword.toUpperCase()
+                        + "\" Vouloir continuer? Oui/Non ");
 
             inputWord = reader.readLine();
             inputWord = inputWord.toLowerCase();
